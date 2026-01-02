@@ -1,0 +1,31 @@
+{
+  "name": "cfe-usage-metrics-backend",
+  "version": "1.0.0",
+  "description": "Backend API for CFE Usage Metrics Dashboard",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:restore": "node src/scripts/restoreDatabase.js"
+  },
+  "keywords": [
+    "cfe",
+    "usage",
+    "metrics",
+    "analytics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
