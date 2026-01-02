@@ -31,10 +31,6 @@ const CSRMetrics = () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
-        // Store the final elapsed time when loading completes
-        if (elapsedTime > 0) {
-          setFinalElapsedTime(elapsedTime);
-        }
       }
     }
     
@@ -43,6 +39,13 @@ const CSRMetrics = () => {
         clearInterval(timerRef.current);
       }
     };
+  }, [loading]);
+
+  // Separate effect to capture final elapsed time when loading completes
+  useEffect(() => {
+    if (!loading && elapsedTime > 0) {
+      setFinalElapsedTime(elapsedTime);
+    }
   }, [loading, elapsedTime]);
 
   const fetchMetrics = async () => {
@@ -163,7 +166,11 @@ const CSRMetrics = () => {
         <>
           {finalElapsedTime !== null && (
             <div className="report-completion-time">
-              ⏱️ Report completed in {formatElapsedTime(finalElapsedTime)}
+              {finalElapsedTime === 0 ? (
+                <>⚡ Report loaded instantly (from cache)</>
+              ) : (
+                <>⏱️ Report completed in {formatElapsedTime(finalElapsedTime)}</>
+              )}
             </div>
           )}
           
@@ -207,31 +214,149 @@ const CSRMetrics = () => {
             </div>
           </div>
 
-          <div className="metrics-table-wrapper">
-            <table className="metrics-table">
-              <thead>
-                <tr>
-                  <th>Run Date</th>
-                  <th>User Login</th>
-                  <th>User Persona</th>
-                  <th>Time in CFE</th>
-                  <th>Policies/Customers Serviced</th>
-                  <th>Contact Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                {metrics.map((metric, index) => (
-                  <tr key={index}>
-                    <td>{formatDate(metric.rundate)}</td>
-                    <td>{metric.userlogin || 'N/A'}</td>
-                    <td>{metric.userpersona || 'N/A'}</td>
-                    <td>{formatMinutes(metric.minsincfe)}</td>
-                    <td className="number">{formatNumber(metric.polcusserviced)}</td>
-                    <td className="number">{formatNumber(metric.countofcontacts)}</td>
+          <div style={{
+            background: 'white',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            border: '1px solid #e2e8f0'
+          }}>
+            <div style={{
+              maxHeight: '600px',
+              overflowY: 'auto',
+              position: 'relative'
+            }}>
+              <table style={{
+                width: '100%',
+                borderCollapse: 'separate',
+                borderSpacing: 0
+              }}>
+                <thead>
+                  <tr style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 10,
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                  }}>
+                    <th style={{
+                      padding: '16px 20px',
+                      color: 'white',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      textAlign: 'left',
+                      borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                      width: '12%'
+                    }}>Run Date</th>
+                    <th style={{
+                      padding: '16px 20px',
+                      color: 'white',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      textAlign: 'left',
+                      borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                      width: '20%'
+                    }}>User Login</th>
+                    <th style={{
+                      padding: '16px 20px',
+                      color: 'white',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      textAlign: 'left',
+                      borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                      width: '18%'
+                    }}>User Persona</th>
+                    <th style={{
+                      padding: '16px 20px',
+                      color: 'white',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      textAlign: 'left',
+                      borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                      width: '12%'
+                    }}>Time in CFE</th>
+                    <th style={{
+                      padding: '16px 20px',
+                      color: 'white',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      textAlign: 'right',
+                      borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                      width: '20%'
+                    }}>Policies/Customers Serviced</th>
+                    <th style={{
+                      padding: '16px 20px',
+                      color: 'white',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      textAlign: 'right',
+                      width: '18%'
+                    }}>Contact Count</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {metrics.map((metric, index) => (
+                    <tr key={index} style={{
+                      background: index % 2 === 0 ? '#f7fafc' : 'white',
+                      borderBottom: index === metrics.length - 1 ? 'none' : '1px solid #e2e8f0',
+                      transition: 'background-color 0.2s ease'
+                    }}>
+                      <td style={{
+                        padding: '16px 20px',
+                        fontSize: '14px',
+                        color: '#2d3748',
+                        borderRight: '1px solid #e2e8f0'
+                      }}>{formatDate(metric.rundate)}</td>
+                      <td style={{
+                        padding: '16px 20px',
+                        fontSize: '14px',
+                        color: '#2d3748',
+                        borderRight: '1px solid #e2e8f0'
+                      }}>{metric.userlogin || 'N/A'}</td>
+                      <td style={{
+                        padding: '16px 20px',
+                        fontSize: '14px',
+                        color: '#2d3748',
+                        borderRight: '1px solid #e2e8f0'
+                      }}>{metric.userpersona || 'N/A'}</td>
+                      <td style={{
+                        padding: '16px 20px',
+                        fontSize: '14px',
+                        color: '#2d3748',
+                        borderRight: '1px solid #e2e8f0'
+                      }}>{formatMinutes(metric.minsincfe)}</td>
+                      <td style={{
+                        padding: '16px 20px',
+                        fontSize: '14px',
+                        color: '#2d3748',
+                        textAlign: 'right',
+                        fontWeight: '500',
+                        borderRight: '1px solid #e2e8f0'
+                      }}>{formatNumber(metric.polcusserviced)}</td>
+                      <td style={{
+                        padding: '16px 20px',
+                        fontSize: '14px',
+                        color: '#2d3748',
+                        textAlign: 'right',
+                        fontWeight: '500'
+                      }}>{formatNumber(metric.countofcontacts)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </>
       )}

@@ -100,36 +100,149 @@ const WorktypeCounts = () => {
         </div>
       </div>
 
-      <div className="worktype-table-container">
-        <table className="worktype-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Worktype</th>
-              <th>Count</th>
-              <th>Percentage</th>
-              <th>Visual</th>
-            </tr>
-          </thead>
-          <tbody>
-            {worktypes.map((worktype, index) => (
-              <tr key={index}>
-                <td className="rank-cell">{index + 1}</td>
-                <td className="worktype-cell">{worktype.worktype}</td>
-                <td className="count-cell">{formatNumber(worktype.count)}</td>
-                <td className="percentage-cell">{getPercentage(worktype.count)}%</td>
-                <td className="visual-cell">
-                  <div className="progress-bar">
-                    <div
-                      className="progress-fill"
-                      style={{ width: `${getPercentage(worktype.count)}%` }}
-                    ></div>
-                  </div>
-                </td>
+      <div style={{
+        background: 'white',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        border: '1px solid #e2e8f0'
+      }}>
+        <div style={{
+          maxHeight: '600px',
+          overflowY: 'auto',
+          position: 'relative'
+        }}>
+          <table style={{
+            width: '100%',
+            borderCollapse: 'separate',
+            borderSpacing: 0
+          }}>
+            <thead>
+              <tr style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                position: 'sticky',
+                top: 0,
+                zIndex: 10,
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+              }}>
+                <th style={{
+                  padding: '16px 20px',
+                  color: 'white',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  textAlign: 'center',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                  width: '8%'
+                }}>Rank</th>
+                <th style={{
+                  padding: '16px 20px',
+                  color: 'white',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  textAlign: 'left',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                  width: '30%'
+                }}>Worktype</th>
+                <th style={{
+                  padding: '16px 20px',
+                  color: 'white',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  textAlign: 'right',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                  width: '15%'
+                }}>Count</th>
+                <th style={{
+                  padding: '16px 20px',
+                  color: 'white',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  textAlign: 'right',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                  width: '12%'
+                }}>Percentage</th>
+                <th style={{
+                  padding: '16px 20px',
+                  color: 'white',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  textAlign: 'left',
+                  width: '35%'
+                }}>Visual</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {worktypes.map((worktype, index) => (
+                <tr key={index} style={{
+                  background: index % 2 === 0 ? '#f7fafc' : 'white',
+                  borderBottom: index === worktypes.length - 1 ? 'none' : '1px solid #e2e8f0',
+                  transition: 'background-color 0.2s ease'
+                }}>
+                  <td style={{
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    color: '#2d3748',
+                    textAlign: 'center',
+                    fontWeight: '600',
+                    borderRight: '1px solid #e2e8f0'
+                  }}>{index + 1}</td>
+                  <td style={{
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    color: '#2d3748',
+                    borderRight: '1px solid #e2e8f0'
+                  }}>{worktype.worktype}</td>
+                  <td style={{
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    color: '#2d3748',
+                    textAlign: 'right',
+                    fontWeight: '500',
+                    borderRight: '1px solid #e2e8f0'
+                  }}>{formatNumber(worktype.count)}</td>
+                  <td style={{
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    color: '#2d3748',
+                    textAlign: 'right',
+                    fontWeight: '500',
+                    borderRight: '1px solid #e2e8f0'
+                  }}>{getPercentage(worktype.count)}%</td>
+                  <td style={{
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    color: '#2d3748'
+                  }}>
+                    <div style={{
+                      width: '100%',
+                      height: '24px',
+                      backgroundColor: '#e2e8f0',
+                      borderRadius: '12px',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        width: `${getPercentage(worktype.count)}%`,
+                        height: '100%',
+                        background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+                        transition: 'width 0.3s ease'
+                      }}></div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {worktypes.length === 0 && (

@@ -30,10 +30,6 @@ const UserPersonasMetrics = () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
-        // Store the final elapsed time when loading completes
-        if (elapsedTime > 0) {
-          setFinalElapsedTime(elapsedTime);
-        }
       }
     }
     
@@ -42,6 +38,13 @@ const UserPersonasMetrics = () => {
         clearInterval(timerRef.current);
       }
     };
+  }, [loading]);
+
+  // Separate effect to capture final elapsed time when loading completes
+  useEffect(() => {
+    if (!loading && elapsedTime > 0) {
+      setFinalElapsedTime(elapsedTime);
+    }
   }, [loading, elapsedTime]);
 
   const fetchMetrics = async () => {
@@ -149,7 +152,11 @@ const UserPersonasMetrics = () => {
         <>
           {finalElapsedTime !== null && (
             <div className="report-completion-time">
-              ⏱️ Report completed in {formatElapsedTime(finalElapsedTime)}
+              {finalElapsedTime === 0 ? (
+                <>⚡ Report loaded instantly (from cache)</>
+              ) : (
+                <>⏱️ Report completed in {formatElapsedTime(finalElapsedTime)}</>
+              )}
             </div>
           )}
           
@@ -178,25 +185,99 @@ const UserPersonasMetrics = () => {
             </div>
           </div>
 
-          <div className="metrics-table-wrapper">
-            <table className="metrics-table">
-              <thead>
-                <tr>
-                  <th>User Email</th>
-                  <th>User Persona</th>
-                  <th>Number of Policies Serviced</th>
-                </tr>
-              </thead>
-              <tbody>
-                {metrics.map((metric, index) => (
-                  <tr key={index}>
-                    <td>{metric.userlogin || 'N/A'}</td>
-                    <td>{metric.userpersona || 'N/A'}</td>
-                    <td className="number">{formatNumber(metric.countofpoliciesserviced)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="metrics-table-container" style={{
+            background: 'white',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            maxHeight: '600px',
+            overflowY: 'auto',
+            position: 'relative',
+            border: '1px solid #e2e8f0'
+          }}>
+            <div className="metrics-table-header" style={{
+              display: 'grid',
+              gridTemplateColumns: '2fr 1.5fr 1.5fr',
+              gap: 0,
+              position: 'sticky',
+              top: 0,
+              zIndex: 10,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div className="header-cell" style={{
+                padding: '16px',
+                textAlign: 'left',
+                fontWeight: 600,
+                color: 'white',
+                fontSize: '0.95rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                borderRight: '1px solid rgba(255, 255, 255, 0.15)',
+                display: 'flex',
+                alignItems: 'center'
+              }}>User Email</div>
+              <div className="header-cell" style={{
+                padding: '16px',
+                textAlign: 'left',
+                fontWeight: 600,
+                color: 'white',
+                fontSize: '0.95rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                borderRight: '1px solid rgba(255, 255, 255, 0.15)',
+                display: 'flex',
+                alignItems: 'center'
+              }}>User Persona</div>
+              <div className="header-cell" style={{
+                padding: '16px',
+                textAlign: 'left',
+                fontWeight: 600,
+                color: 'white',
+                fontSize: '0.95rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                display: 'flex',
+                alignItems: 'center'
+              }}>Number of Policies Serviced</div>
+            </div>
+            <div className="metrics-table-body" style={{ background: 'white' }}>
+              {metrics.map((metric, index) => (
+                <div key={index} className="table-row" style={{
+                  display: 'grid',
+                  gridTemplateColumns: '2fr 1.5fr 1.5fr',
+                  gap: 0,
+                  borderBottom: index === metrics.length - 1 ? 'none' : '1px solid #e2e8f0',
+                  transition: 'background-color 0.2s ease'
+                }}>
+                  <div className="table-cell" style={{
+                    padding: '14px 16px',
+                    color: '#475569',
+                    background: 'inherit',
+                    borderRight: '1px solid #f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}>{metric.userlogin || 'N/A'}</div>
+                  <div className="table-cell" style={{
+                    padding: '14px 16px',
+                    color: '#475569',
+                    background: 'inherit',
+                    borderRight: '1px solid #f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}>{metric.userpersona || 'N/A'}</div>
+                  <div className="table-cell number" style={{
+                    padding: '14px 16px',
+                    color: '#1e293b',
+                    background: 'inherit',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    fontWeight: 500
+                  }}>{formatNumber(metric.countofpoliciesserviced)}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </>
       )}
