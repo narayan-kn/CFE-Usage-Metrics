@@ -160,19 +160,19 @@ class MetricsService {
   }
 
   /**
-   * Get worktype counts based on activity descriptions
+   * Get worktype counts by month based on activity descriptions
    */
   async getWorktypeCounts(startDate = '2025-04-21') {
     try {
       const result = await query(`
         WITH WorkType_Submission AS (
-          SELECT 
-            poh_policynumber, 
-            com_code, 
-            act_activitydate, 
-            act_description, 
-            usr_login, 
-            urt_description_i, 
+          SELECT
+            poh_policynumber,
+            com_code,
+            act_activitydate,
+            act_description,
+            usr_login,
+            urt_description_i,
             CASE
               WHEN act_description LIKE 'Update Cash Surrender%' THEN 'Cash Surrender'
               WHEN act_description LIKE 'Update External Exchange%' THEN 'Rollover Exchange'
@@ -188,9 +188,9 @@ class MetricsService {
               ELSE SUBSTRING(act_description FROM 1 FOR 24)
             END AS worktype
           FROM cm_opt_poh_policyhdr_s
-          INNER JOIN cm_cfg_com_company_s ON com_id = poh_companyid 
+          INNER JOIN cm_cfg_com_company_s ON com_id = poh_companyid
           INNER JOIN cm_jon_policyhdr_act_s ON poh_id = poh_policyhdrid
-          INNER JOIN cc_opt_act_useractivity_s ON poh_useractivityid = act_id 
+          INNER JOIN cc_opt_act_useractivity_s ON poh_useractivityid = act_id
           INNER JOIN cc_opt_usr_userlogin_s ON usr_id = act_userid
           INNER JOIN cc_jon_userlogin_urt_s ON usr_id = usr_userloginid
           INNER JOIN cc_opt_urt_userrole_i ON urt_id_i = usr_userroleid
@@ -209,10 +209,14 @@ class MetricsService {
               OR act_description LIKE 'Process Cash Loan%'
             )
         )
-        SELECT worktype, COUNT(*) as count
+        SELECT
+          worktype,
+          TO_CHAR(DATE_TRUNC('month', act_activitydate), 'Mon') AS month1,
+          DATE_TRUNC('month', act_activitydate) AS month2,
+          COUNT(*) as count
         FROM WorkType_Submission
-        GROUP BY worktype
-        ORDER BY count DESC;
+        GROUP BY worktype, month1, month2
+        ORDER BY month2, count DESC;
       `, [startDate]);
 
       return {
@@ -239,11 +243,19 @@ class MetricsService {
         endDate = new Date().getFullYear() + '-12-31';
       }
 
+      console.log(`[CSR Metrics] Starting query for date range: ${startDate} to ${endDate}`);
+      const startTime = Date.now();
+
+      // Set a statement timeout of 3 minutes (180000ms) for this query
       const queryText = `
-        SELECT * FROM SP_CFE_Prod_Reports_CSR_Metrics1($1, $2)
+        SET statement_timeout = 180000;
+        SELECT * FROM SP_CFE_Prod_Reports_CSR_Metrics1($1, $2);
       `;
 
       const result = await query(queryText, [startDate, endDate]);
+      
+      const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+      console.log(`[CSR Metrics] Query completed in ${duration} seconds, returned ${result.rows.length} rows`);
 
       return {
         success: true,
@@ -252,6 +264,16 @@ class MetricsService {
         endDate: endDate
       };
     } catch (error) {
+      console.error('[CSR Metrics] Query failed:', error.message);
+      
+      // Check if it's a timeout error
+      if (error.message.includes('statement timeout') || error.message.includes('canceling statement')) {
+        return {
+          success: false,
+          error: 'Query timeout: The CSR Metrics stored procedure is taking too long (>3 minutes). Please contact your DBA to optimize SP_CFE_Prod_Reports_CSR_Metrics1 or try a shorter date range.'
+        };
+      }
+      
       return {
         success: false,
         error: error.message

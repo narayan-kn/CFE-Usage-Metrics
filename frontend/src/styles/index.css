@@ -1,3 +1,4 @@
+/* Cache Buster: 2026-01-02-18:46 - Force CSS reload for sticky headers */
 * {
   margin: 0;
   padding: 0;
@@ -1263,23 +1264,22 @@ code {
 }
 
 
-/* Sticky Table Headers */
-.metrics-table-wrapper {
+/* Sticky Table Headers with CSS Grid */
+.metrics-table-container {
   background: white;
-  border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   overflow: hidden;
   max-height: 600px;
   overflow-y: auto;
   position: relative;
+  border: 1px solid #e2e8f0;
 }
 
-.metrics-table-wrapper table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.metrics-table-wrapper thead {
+.metrics-table-header {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr;
+  gap: 0;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -1287,7 +1287,7 @@ code {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.metrics-table-wrapper th {
+.header-cell {
   padding: 16px;
   text-align: left;
   font-weight: 600;
@@ -1295,43 +1295,69 @@ code {
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
 }
 
-.metrics-table-wrapper td {
-  padding: 14px 16px;
+.header-cell:last-child {
+  border-right: none;
+}
+
+.metrics-table-body {
+  background: white;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr;
+  gap: 0;
   border-bottom: 1px solid #e2e8f0;
-  color: #475569;
+  transition: background-color 0.2s ease;
 }
 
-.metrics-table-wrapper tbody tr:hover {
+.table-row:hover {
   background: #f8fafc;
 }
 
-.metrics-table-wrapper tbody tr:last-child td {
+.table-row:last-child {
   border-bottom: none;
 }
 
-.metrics-table-wrapper td.number {
-  text-align: right;
+.table-cell {
+  padding: 14px 16px;
+  color: #475569;
+  background: inherit;
+  border-right: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+}
+
+.table-cell:last-child {
+  border-right: none;
+}
+
+.table-cell.number {
+  justify-content: flex-end;
   font-weight: 500;
   color: #1e293b;
 }
 
-/* Scrollbar styling for table wrapper */
-.metrics-table-wrapper::-webkit-scrollbar {
+/* Scrollbar styling for table container */
+.metrics-table-container::-webkit-scrollbar {
   width: 8px;
 }
 
-.metrics-table-wrapper::-webkit-scrollbar-track {
+.metrics-table-container::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
 
-.metrics-table-wrapper::-webkit-scrollbar-thumb {
+.metrics-table-container::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
 
-.metrics-table-wrapper::-webkit-scrollbar-thumb:hover {
+.metrics-table-container::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
