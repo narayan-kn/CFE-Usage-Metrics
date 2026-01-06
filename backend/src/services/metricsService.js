@@ -185,6 +185,8 @@ class MetricsService {
               WHEN act_description LIKE 'Process EEndorsement%' THEN 'eEndorsement'
               WHEN act_description LIKE 'Process ETIRPU%' THEN 'ETIRPU'
               WHEN act_description LIKE 'Process Cash Loan%' THEN 'Cash Loan'
+              WHEN act_description LIKE 'Process CONMAINT%' THEN 'CONMAINT'
+              WHEN act_description LIKE 'Process ABC%' THEN 'ABC'
               ELSE SUBSTRING(act_description FROM 1 FOR 24)
             END AS worktype
           FROM cm_opt_poh_policyhdr_s
@@ -207,6 +209,8 @@ class MetricsService {
               OR act_description LIKE 'Process EEndorsement%'
               OR act_description LIKE 'Process ETIRPU%'
               OR act_description LIKE 'Process Cash Loan%'
+              OR act_description LIKE 'Process CONMAINT%'
+              OR act_description LIKE 'Process ABC%'
             )
         )
         SELECT

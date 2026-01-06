@@ -20,6 +20,9 @@ OR act_description like 'Process EAddress Change%'
 OR act_description like 'Process EEndorsement%'
 OR act_description like 'Process ETIRPU%'
 OR act_description like 'Process Cash Loan%'
+OR act_description like 'Process CONMAINT%'
+OR act_description like 'Process ABC%'
+
 --OR act_description like '%Check amount exceeds approval limit.%'
 	)
 order by act_activitydate desc;
@@ -36,6 +39,8 @@ update WorkType_Submission set worktype = 'eAddress' where worktype = 'Process E
 update WorkType_Submission set worktype = 'eEndorsement' where worktype = 'Process EEndorsement for';
 update WorkType_Submission set worktype = 'ETIRPU' where worktype like 'Process ETIRPU for%';
 update WorkType_Submission set worktype = 'Cash Loan' where worktype like 'Process Cash Loan%';
+update WorkType_Submission set worktype = 'ABC' where worktype like 'Process ABC';
+
 
 --select poh_policynumber, com_code, act_activitydate, usr_login, urt_description_i from WorkType_Submission
 --where worktype = 'Cash Surrender'

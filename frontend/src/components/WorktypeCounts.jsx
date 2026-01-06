@@ -7,7 +7,7 @@ const WorktypeCounts = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [startDate, setStartDate] = useState('2025-01-01');
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('all');
   const [availableMonths, setAvailableMonths] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [hasRun, setHasRun] = useState(false);
