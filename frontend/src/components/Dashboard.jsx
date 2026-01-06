@@ -76,9 +76,40 @@ const Dashboard = () => {
     <div className="dashboard">
       <header className="dashboard-header">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <div>
-            <h1>📊 Operations Dashboard</h1>
-            <p>CFE Usage Metrics</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            {/* IBM Logo */}
+            <svg width="50" height="20" viewBox="0 0 50 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="8" height="3" fill="#0F62FE"/>
+              <rect x="0" y="4" width="8" height="3" fill="#0F62FE"/>
+              <rect x="0" y="8" width="8" height="3" fill="#0F62FE"/>
+              <rect x="0" y="12" width="8" height="3" fill="#0F62FE"/>
+              <rect x="0" y="16" width="8" height="3" fill="#0F62FE"/>
+              <rect x="10" y="0" width="8" height="3" fill="#0F62FE"/>
+              <rect x="10" y="8" width="8" height="3" fill="#0F62FE"/>
+              <rect x="10" y="16" width="8" height="3" fill="#0F62FE"/>
+              <rect x="20" y="0" width="8" height="3" fill="#0F62FE"/>
+              <rect x="20" y="4" width="8" height="3" fill="#0F62FE"/>
+              <rect x="20" y="8" width="8" height="3" fill="#0F62FE"/>
+              <rect x="20" y="12" width="8" height="3" fill="#0F62FE"/>
+              <rect x="20" y="16" width="8" height="3" fill="#0F62FE"/>
+            </svg>
+            
+            {/* Dashboard Icon */}
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
+              <rect x="3" y="14" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
+              <rect x="14" y="3" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
+              <rect x="14" y="14" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
+              <circle cx="6.5" cy="6.5" r="1.5" fill="#667eea"/>
+              <circle cx="17.5" cy="6.5" r="1.5" fill="#667eea"/>
+              <circle cx="6.5" cy="17.5" r="1.5" fill="#667eea"/>
+              <circle cx="17.5" cy="17.5" r="1.5" fill="#667eea"/>
+            </svg>
+            
+            <div>
+              <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '600' }}>Operations Dashboard</h1>
+              <p style={{ margin: '4px 0 0 0', color: '#666', fontSize: '0.9rem' }}>CFE Usage Metrics</p>
+            </div>
           </div>
           <div style={{
             fontSize: '0.85rem',
