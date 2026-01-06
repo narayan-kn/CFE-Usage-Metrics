@@ -82,22 +82,37 @@ const Dashboard = () => {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          {/* Left: IBM Logo */}
+          {/* Left: IBM Logo - Classic 8-bar design */}
           <div style={{ display: 'flex', alignItems: 'center', minWidth: '80px' }}>
-            <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="10" height="4" fill="white"/>
-              <rect x="0" y="5" width="10" height="4" fill="white"/>
-              <rect x="0" y="10" width="10" height="4" fill="white"/>
-              <rect x="0" y="15" width="10" height="4" fill="white"/>
-              <rect x="0" y="20" width="10" height="4" fill="white"/>
-              <rect x="12" y="0" width="10" height="4" fill="white"/>
-              <rect x="12" y="10" width="10" height="4" fill="white"/>
-              <rect x="12" y="20" width="10" height="4" fill="white"/>
-              <rect x="24" y="0" width="10" height="4" fill="white"/>
-              <rect x="24" y="5" width="10" height="4" fill="white"/>
-              <rect x="24" y="10" width="10" height="4" fill="white"/>
-              <rect x="24" y="15" width="10" height="4" fill="white"/>
-              <rect x="24" y="20" width="10" height="4" fill="white"/>
+            <svg width="80" height="32" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* I */}
+              <rect x="0" y="0" width="12" height="4" fill="white"/>
+              <rect x="0" y="7" width="12" height="4" fill="white"/>
+              <rect x="0" y="14" width="12" height="4" fill="white"/>
+              <rect x="0" y="21" width="12" height="4" fill="white"/>
+              <rect x="0" y="28" width="12" height="4" fill="white"/>
+              
+              {/* B */}
+              <rect x="16" y="0" width="24" height="4" fill="white"/>
+              <rect x="16" y="7" width="12" height="4" fill="white"/>
+              <rect x="28" y="7" width="12" height="4" fill="white"/>
+              <rect x="16" y="14" width="24" height="4" fill="white"/>
+              <rect x="16" y="21" width="12" height="4" fill="white"/>
+              <rect x="28" y="21" width="12" height="4" fill="white"/>
+              <rect x="16" y="28" width="24" height="4" fill="white"/>
+              
+              {/* M */}
+              <rect x="44" y="0" width="12" height="4" fill="white"/>
+              <rect x="68" y="0" width="12" height="4" fill="white"/>
+              <rect x="44" y="7" width="12" height="4" fill="white"/>
+              <rect x="56" y="7" width="12" height="4" fill="white"/>
+              <rect x="68" y="7" width="12" height="4" fill="white"/>
+              <rect x="44" y="14" width="12" height="4" fill="white"/>
+              <rect x="68" y="14" width="12" height="4" fill="white"/>
+              <rect x="44" y="21" width="12" height="4" fill="white"/>
+              <rect x="68" y="21" width="12" height="4" fill="white"/>
+              <rect x="44" y="28" width="12" height="4" fill="white"/>
+              <rect x="68" y="28" width="12" height="4" fill="white"/>
             </svg>
           </div>
           
@@ -137,7 +152,7 @@ const Dashboard = () => {
             backdropFilter: 'blur(10px)'
           }}>
             <div style={{ fontWeight: '700', fontSize: '0.9rem' }}>{getVersionString()}</div>
-            <div style={{ fontSize: '0.75rem', marginTop: '3px', opacity: 0.9 }}>Monthly Metrics</div>
+            <div style={{ fontSize: '0.75rem', marginTop: '3px', opacity: 0.9 }}>CFE Usage Metrics</div>
           </div>
         </div>
       </header>
