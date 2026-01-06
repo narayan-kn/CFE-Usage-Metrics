@@ -10,26 +10,30 @@ const QueryExecutor = () => {
 
   const sampleQueries = [
     {
-      name: 'Count all tables',
-      query: `SELECT 
-  schemaname, 
-  tablename, 
-  pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size
+      name: 'List all tables',
+      query: `-- List all user tables with proper case-sensitive handling
+SELECT
+  schemaname,
+  tablename,
+  pg_size_pretty(pg_total_relation_size('"' || schemaname || '"."' || tablename || '"')) AS size
 FROM pg_tables
 WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
-ORDER BY schemaname, tablename;`
+ORDER BY schemaname, tablename
+LIMIT 100;`
     },
     {
       name: 'Database size',
-      query: `SELECT 
+      query: `-- Get total database size
+SELECT
   pg_size_pretty(pg_database_size(current_database())) as database_size;`
     },
     {
       name: 'Top 10 largest tables',
-      query: `SELECT 
+      query: `-- Find the 10 largest tables (handles case-sensitive names)
+SELECT
   schemaname || '.' || tablename AS table_name,
-  pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size,
-  pg_total_relation_size(schemaname||'.'||tablename) AS size_bytes
+  pg_size_pretty(pg_total_relation_size('"' || schemaname || '"."' || tablename || '"')) AS size,
+  pg_total_relation_size('"' || schemaname || '"."' || tablename || '"') AS size_bytes
 FROM pg_tables
 WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
 ORDER BY size_bytes DESC
@@ -37,12 +41,28 @@ LIMIT 10;`
     },
     {
       name: 'Table row counts',
-      query: `SELECT 
+      query: `-- Get row counts for all tables in public schema
+SELECT
   schemaname,
-  tablename,
+  relname AS tablename,
   n_live_tup AS row_count
 FROM pg_stat_user_tables
-ORDER BY n_live_tup DESC;`
+WHERE schemaname = 'public'
+ORDER BY n_live_tup DESC
+LIMIT 50;`
+    },
+    {
+      name: 'Sample: Query a table',
+      query: `-- Example: Query the Policy_Compare table
+-- IMPORTANT: Table names with mixed case MUST be quoted with double quotes
+-- Without quotes, PostgreSQL converts to lowercase: policy_compare (will fail!)
+-- With quotes, it preserves case: "Policy_Compare" (correct!)
+
+SELECT * FROM "Policy_Compare" LIMIT 10;
+
+-- Other examples:
+-- SELECT * FROM "public"."Policy_Compare" WHERE column_name = 'value' LIMIT 10;
+-- SELECT COUNT(*) FROM "Policy_Compare";`
     }
   ];
 

@@ -12,6 +12,11 @@ const WorktypeCounts = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [hasRun, setHasRun] = useState(false);
 
+  // Auto-run report on component mount
+  useEffect(() => {
+    fetchWorktypeCounts();
+  }, []); // Empty dependency array means this runs once on mount
+
   useEffect(() => {
     if (selectedMonth && selectedMonth !== '') {
       filterByMonth();
