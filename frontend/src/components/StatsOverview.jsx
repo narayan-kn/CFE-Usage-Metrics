@@ -57,8 +57,8 @@ const StatsOverview = ({ stats, tables }) => {
       </div>
 
       <div className="top-tables-section">
-        <h2 style={{ 
-          fontSize: '1.5rem', 
+        <h2 style={{
+          fontSize: '1.5rem',
           marginBottom: '20px',
           color: '#4f46e5',
           fontWeight: '600'
@@ -67,108 +67,147 @@ const StatsOverview = ({ stats, tables }) => {
         </h2>
         
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-          gap: '16px',
-          marginTop: '20px'
+          overflowX: 'auto',
+          marginTop: '20px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
         }}>
-          {top20Tables.map((table, index) => (
-            <div 
-              key={index} 
-              style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                borderRadius: '8px',
-                padding: '16px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                cursor: 'pointer',
-                color: 'white'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-              }}
-            >
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '12px'
-              }}>
-                <span style={{
-                  background: 'rgba(255,255,255,0.2)',
-                  borderRadius: '50%',
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: '700',
-                  fontSize: '0.9rem',
-                  marginRight: '12px'
-                }}>
-                  #{index + 1}
-                </span>
-                <h4 style={{
-                  margin: 0,
-                  fontSize: '1rem',
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            backgroundColor: 'white'
+          }}>
+            <thead>
+              <tr>
+                <th style={{
+                  position: 'sticky',
+                  top: 0,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  padding: '12px',
+                  textAlign: 'left',
                   fontWeight: '600',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  flex: 1
+                  fontSize: '0.9rem',
+                  zIndex: 10,
+                  width: '60px'
                 }}>
-                  {table.schema}.{table.table}
-                </h4>
-              </div>
-              
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingTop: '12px',
-                borderTop: '1px solid rgba(255,255,255,0.2)'
-              }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{
-                    fontSize: '0.75rem',
-                    opacity: 0.9,
-                    marginBottom: '4px'
-                  }}>
-                    Row Count
-                  </div>
-                  <div style={{
-                    fontSize: '1.1rem',
-                    fontWeight: '700'
-                  }}>
-                    📊 {table.count.toLocaleString()}
-                  </div>
-                </div>
-                
-                <div style={{ 
-                  flex: 1,
-                  textAlign: 'right'
+                  Rank
+                </th>
+                <th style={{
+                  position: 'sticky',
+                  top: 0,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  padding: '12px',
+                  textAlign: 'left',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  zIndex: 10
                 }}>
-                  <div style={{
-                    fontSize: '0.75rem',
-                    opacity: 0.9,
-                    marginBottom: '4px'
+                  Schema
+                </th>
+                <th style={{
+                  position: 'sticky',
+                  top: 0,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  padding: '12px',
+                  textAlign: 'left',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  zIndex: 10
+                }}>
+                  Table Name
+                </th>
+                <th style={{
+                  position: 'sticky',
+                  top: 0,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  padding: '12px',
+                  textAlign: 'right',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  zIndex: 10
+                }}>
+                  Row Count
+                </th>
+                <th style={{
+                  position: 'sticky',
+                  top: 0,
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  padding: '12px',
+                  textAlign: 'right',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  zIndex: 10
+                }}>
+                  Table Size
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {top20Tables.map((table, index) => (
+                <tr
+                  key={index}
+                  style={{
+                    backgroundColor: index % 2 === 0 ? '#f9fafb' : 'white',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#e0e7ff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = index % 2 === 0 ? '#f9fafb' : 'white';
+                  }}
+                >
+                  <td style={{
+                    padding: '12px',
+                    borderBottom: '1px solid #e5e7eb',
+                    fontWeight: '700',
+                    color: '#4f46e5'
                   }}>
-                    Table Size
-                  </div>
-                  <div style={{
-                    fontSize: '1.1rem',
-                    fontWeight: '700'
+                    #{index + 1}
+                  </td>
+                  <td style={{
+                    padding: '12px',
+                    borderBottom: '1px solid #e5e7eb',
+                    color: '#6b7280',
+                    fontWeight: '500'
                   }}>
-                    💾 {table.size}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                    {table.schema}
+                  </td>
+                  <td style={{
+                    padding: '12px',
+                    borderBottom: '1px solid #e5e7eb',
+                    color: '#111827',
+                    fontWeight: '600'
+                  }}>
+                    {table.table}
+                  </td>
+                  <td style={{
+                    padding: '12px',
+                    borderBottom: '1px solid #e5e7eb',
+                    textAlign: 'right',
+                    color: '#111827',
+                    fontWeight: '500'
+                  }}>
+                    {table.count.toLocaleString()}
+                  </td>
+                  <td style={{
+                    padding: '12px',
+                    borderBottom: '1px solid #e5e7eb',
+                    textAlign: 'right',
+                    color: '#111827',
+                    fontWeight: '600'
+                  }}>
+                    {table.size}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
