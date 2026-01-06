@@ -82,39 +82,17 @@ const Dashboard = () => {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          {/* Left: IBM Logo - Classic 8-bar design */}
+          {/* Left: Custom Logo */}
           <div style={{ display: 'flex', alignItems: 'center', minWidth: '80px' }}>
-            <svg width="100" height="40" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Classic IBM 8-bar logo with better spacing and clarity */}
-              {/* I - Letter */}
-              <rect x="0" y="0" width="16" height="5" fill="white"/>
-              <rect x="0" y="8.75" width="16" height="5" fill="white"/>
-              <rect x="0" y="17.5" width="16" height="5" fill="white"/>
-              <rect x="0" y="26.25" width="16" height="5" fill="white"/>
-              <rect x="0" y="35" width="16" height="5" fill="white"/>
-              
-              {/* B - Letter */}
-              <rect x="22" y="0" width="30" height="5" fill="white"/>
-              <rect x="22" y="8.75" width="14" height="5" fill="white"/>
-              <rect x="38" y="8.75" width="14" height="5" fill="white"/>
-              <rect x="22" y="17.5" width="30" height="5" fill="white"/>
-              <rect x="22" y="26.25" width="14" height="5" fill="white"/>
-              <rect x="38" y="26.25" width="14" height="5" fill="white"/>
-              <rect x="22" y="35" width="30" height="5" fill="white"/>
-              
-              {/* M - Letter */}
-              <rect x="58" y="0" width="14" height="5" fill="white"/>
-              <rect x="86" y="0" width="14" height="5" fill="white"/>
-              <rect x="58" y="8.75" width="14" height="5" fill="white"/>
-              <rect x="72" y="8.75" width="14" height="5" fill="white"/>
-              <rect x="86" y="8.75" width="14" height="5" fill="white"/>
-              <rect x="58" y="17.5" width="14" height="5" fill="white"/>
-              <rect x="86" y="17.5" width="14" height="5" fill="white"/>
-              <rect x="58" y="26.25" width="14" height="5" fill="white"/>
-              <rect x="86" y="26.25" width="14" height="5" fill="white"/>
-              <rect x="58" y="35" width="14" height="5" fill="white"/>
-              <rect x="86" y="35" width="14" height="5" fill="white"/>
-            </svg>
+            <img
+              src="/IBM logo.png"
+              alt="Company Logo"
+              style={{
+                height: '40px',
+                width: 'auto',
+                objectFit: 'contain'
+              }}
+            />
           </div>
           
           {/* Center: Title */}
