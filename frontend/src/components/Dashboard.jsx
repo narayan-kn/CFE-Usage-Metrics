@@ -74,51 +74,70 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <header className="dashboard-header">
+      <header className="dashboard-header" style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '20px 30px',
+        borderRadius: '8px',
+        marginBottom: '20px',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+      }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            {/* IBM Logo */}
-            <svg width="50" height="20" viewBox="0 0 50 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="8" height="3" fill="#0F62FE"/>
-              <rect x="0" y="4" width="8" height="3" fill="#0F62FE"/>
-              <rect x="0" y="8" width="8" height="3" fill="#0F62FE"/>
-              <rect x="0" y="12" width="8" height="3" fill="#0F62FE"/>
-              <rect x="0" y="16" width="8" height="3" fill="#0F62FE"/>
-              <rect x="10" y="0" width="8" height="3" fill="#0F62FE"/>
-              <rect x="10" y="8" width="8" height="3" fill="#0F62FE"/>
-              <rect x="10" y="16" width="8" height="3" fill="#0F62FE"/>
-              <rect x="20" y="0" width="8" height="3" fill="#0F62FE"/>
-              <rect x="20" y="4" width="8" height="3" fill="#0F62FE"/>
-              <rect x="20" y="8" width="8" height="3" fill="#0F62FE"/>
-              <rect x="20" y="12" width="8" height="3" fill="#0F62FE"/>
-              <rect x="20" y="16" width="8" height="3" fill="#0F62FE"/>
+          {/* Left: IBM Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', minWidth: '80px' }}>
+            <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="10" height="4" fill="white"/>
+              <rect x="0" y="5" width="10" height="4" fill="white"/>
+              <rect x="0" y="10" width="10" height="4" fill="white"/>
+              <rect x="0" y="15" width="10" height="4" fill="white"/>
+              <rect x="0" y="20" width="10" height="4" fill="white"/>
+              <rect x="12" y="0" width="10" height="4" fill="white"/>
+              <rect x="12" y="10" width="10" height="4" fill="white"/>
+              <rect x="12" y="20" width="10" height="4" fill="white"/>
+              <rect x="24" y="0" width="10" height="4" fill="white"/>
+              <rect x="24" y="5" width="10" height="4" fill="white"/>
+              <rect x="24" y="10" width="10" height="4" fill="white"/>
+              <rect x="24" y="15" width="10" height="4" fill="white"/>
+              <rect x="24" y="20" width="10" height="4" fill="white"/>
             </svg>
-            
-            {/* Dashboard Icon */}
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="3" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
-              <rect x="3" y="14" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
-              <rect x="14" y="3" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
-              <rect x="14" y="14" width="7" height="7" rx="1" stroke="#667eea" strokeWidth="2" fill="none"/>
-              <circle cx="6.5" cy="6.5" r="1.5" fill="#667eea"/>
-              <circle cx="17.5" cy="6.5" r="1.5" fill="#667eea"/>
-              <circle cx="6.5" cy="17.5" r="1.5" fill="#667eea"/>
-              <circle cx="17.5" cy="17.5" r="1.5" fill="#667eea"/>
-            </svg>
-            
-            <div>
-              <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '600' }}>Operations Dashboard</h1>
-              <p style={{ margin: '4px 0 0 0', color: '#666', fontSize: '0.9rem' }}>CFE Usage Metrics</p>
-            </div>
           </div>
+          
+          {/* Center: Title */}
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '2rem',
+              fontWeight: '700',
+              color: 'white',
+              textShadow: '0 2px 4px rgba(0,0,0,0.2)',
+              letterSpacing: '0.5px'
+            }}>
+              📊 Operations Dashboard
+            </h1>
+            <p style={{
+              margin: '6px 0 0 0',
+              color: 'rgba(255,255,255,0.95)',
+              fontSize: '1rem',
+              fontWeight: '500',
+              textShadow: '0 1px 2px rgba(0,0,0,0.2)'
+            }}>
+              CFE Usage Metrics
+            </p>
+          </div>
+          
+          {/* Right: Version */}
           <div style={{
             fontSize: '0.85rem',
-            color: '#666',
+            color: 'white',
             textAlign: 'right',
-            fontFamily: 'monospace'
+            fontFamily: 'monospace',
+            minWidth: '180px',
+            background: 'rgba(255,255,255,0.15)',
+            padding: '8px 12px',
+            borderRadius: '6px',
+            backdropFilter: 'blur(10px)'
           }}>
-            <div style={{ fontWeight: '600', color: '#667eea' }}>{getVersionString()}</div>
-            <div style={{ fontSize: '0.75rem', marginTop: '2px' }}>Release: Monthly Metrics</div>
+            <div style={{ fontWeight: '700', fontSize: '0.9rem' }}>{getVersionString()}</div>
+            <div style={{ fontSize: '0.75rem', marginTop: '3px', opacity: 0.9 }}>Monthly Metrics</div>
           </div>
         </div>
       </header>
