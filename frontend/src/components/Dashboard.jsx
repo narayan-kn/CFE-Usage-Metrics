@@ -6,6 +6,7 @@ import QueryExecutor from './QueryExecutor';
 import StatsOverview from './StatsOverview';
 import WorktypeCounts from './WorktypeCounts';
 import MetricsReports from './MetricsReports';
+import { getVersionString } from '../config/version';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -74,8 +75,21 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>📊 Operations Dashboard</h1>
-        <p>CFE Usage Metrics</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <h1>📊 Operations Dashboard</h1>
+            <p>CFE Usage Metrics</p>
+          </div>
+          <div style={{
+            fontSize: '0.85rem',
+            color: '#666',
+            textAlign: 'right',
+            fontFamily: 'monospace'
+          }}>
+            <div style={{ fontWeight: '600', color: '#667eea' }}>{getVersionString()}</div>
+            <div style={{ fontSize: '0.75rem', marginTop: '2px' }}>Release: Monthly Metrics</div>
+          </div>
+        </div>
       </header>
 
       {error && (
