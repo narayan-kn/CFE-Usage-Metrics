@@ -1,16 +1,22 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const StatsOverview = ({ stats, tables }) => {
   if (!stats) {
     return <div>Loading statistics...</div>;
   }
 
-  // Prepare data for chart - top 10 tables by row count
-  const chartData = tables.slice(0, 10).map(table => ({
-    name: `${table.schema}.${table.table}`,
-    rows: table.count,
-  }));
+  // Sort tables by size (convert size string to bytes for proper sorting)
+  const sizeToBytes = (sizeStr) => {
+    if (!sizeStr) return 0;
+    const units = { 'bytes': 1, 'kB': 1024, 'MB': 1024**2, 'GB': 1024**3, 'TB': 1024**4 };
+    const match = sizeStr.match(/^([\d.]+)\s*(\w+)$/);
+    if (!match) return 0;
+    const [, num, unit] = match;
+    return parseFloat(num) * (units[unit] || 1);
+  };
+
+  const sortedTables = [...tables].sort((a, b) => sizeToBytes(b.size) - sizeToBytes(a.size));
+  const top20Tables = sortedTables.slice(0, 20);
 
   return (
     <div className="stats-overview">
@@ -50,35 +56,116 @@ const StatsOverview = ({ stats, tables }) => {
         </div>
       </div>
 
-      <div className="chart-container">
-        <h2>Top 10 Tables by Row Count</h2>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="name" 
-              angle={-45} 
-              textAnchor="end" 
-              height={150}
-              interval={0}
-            />
-            <YAxis />
-            <Tooltip formatter={(value) => value.toLocaleString()} />
-            <Legend />
-            <Bar dataKey="rows" fill="#4f46e5" name="Row Count" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="tables-summary">
-        <h2>All Tables Summary</h2>
-        <div className="table-grid">
-          {tables.map((table, index) => (
-            <div key={index} className="table-summary-card">
-              <h4>{table.schema}.{table.table}</h4>
-              <div className="table-summary-stats">
-                <span>📊 {table.count.toLocaleString()} rows</span>
-                <span>💾 {table.size}</span>
+      <div className="top-tables-section">
+        <h2 style={{ 
+          fontSize: '1.5rem', 
+          marginBottom: '20px',
+          color: '#4f46e5',
+          fontWeight: '600'
+        }}>
+          📊 Top 20 Tables by Size
+        </h2>
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+          gap: '16px',
+          marginTop: '20px'
+        }}>
+          {top20Tables.map((table, index) => (
+            <div 
+              key={index} 
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '8px',
+                padding: '16px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+              }}
+            >
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '12px'
+              }}>
+                <span style={{
+                  background: 'rgba(255,255,255,0.2)',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: '700',
+                  fontSize: '0.9rem',
+                  marginRight: '12px'
+                }}>
+                  #{index + 1}
+                </span>
+                <h4 style={{
+                  margin: 0,
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  flex: 1
+                }}>
+                  {table.schema}.{table.table}
+                </h4>
+              </div>
+              
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingTop: '12px',
+                borderTop: '1px solid rgba(255,255,255,0.2)'
+              }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    fontSize: '0.75rem',
+                    opacity: 0.9,
+                    marginBottom: '4px'
+                  }}>
+                    Row Count
+                  </div>
+                  <div style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '700'
+                  }}>
+                    📊 {table.count.toLocaleString()}
+                  </div>
+                </div>
+                
+                <div style={{ 
+                  flex: 1,
+                  textAlign: 'right'
+                }}>
+                  <div style={{
+                    fontSize: '0.75rem',
+                    opacity: 0.9,
+                    marginBottom: '4px'
+                  }}>
+                    Table Size
+                  </div>
+                  <div style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '700'
+                  }}>
+                    💾 {table.size}
+                  </div>
+                </div>
               </div>
             </div>
           ))}

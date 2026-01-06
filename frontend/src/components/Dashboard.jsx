@@ -84,35 +84,36 @@ const Dashboard = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           {/* Left: IBM Logo - Classic 8-bar design */}
           <div style={{ display: 'flex', alignItems: 'center', minWidth: '80px' }}>
-            <svg width="80" height="32" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* I */}
-              <rect x="0" y="0" width="12" height="4" fill="white"/>
-              <rect x="0" y="7" width="12" height="4" fill="white"/>
-              <rect x="0" y="14" width="12" height="4" fill="white"/>
-              <rect x="0" y="21" width="12" height="4" fill="white"/>
-              <rect x="0" y="28" width="12" height="4" fill="white"/>
+            <svg width="100" height="40" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Classic IBM 8-bar logo with better spacing and clarity */}
+              {/* I - Letter */}
+              <rect x="0" y="0" width="16" height="5" fill="white"/>
+              <rect x="0" y="8.75" width="16" height="5" fill="white"/>
+              <rect x="0" y="17.5" width="16" height="5" fill="white"/>
+              <rect x="0" y="26.25" width="16" height="5" fill="white"/>
+              <rect x="0" y="35" width="16" height="5" fill="white"/>
               
-              {/* B */}
-              <rect x="16" y="0" width="24" height="4" fill="white"/>
-              <rect x="16" y="7" width="12" height="4" fill="white"/>
-              <rect x="28" y="7" width="12" height="4" fill="white"/>
-              <rect x="16" y="14" width="24" height="4" fill="white"/>
-              <rect x="16" y="21" width="12" height="4" fill="white"/>
-              <rect x="28" y="21" width="12" height="4" fill="white"/>
-              <rect x="16" y="28" width="24" height="4" fill="white"/>
+              {/* B - Letter */}
+              <rect x="22" y="0" width="30" height="5" fill="white"/>
+              <rect x="22" y="8.75" width="14" height="5" fill="white"/>
+              <rect x="38" y="8.75" width="14" height="5" fill="white"/>
+              <rect x="22" y="17.5" width="30" height="5" fill="white"/>
+              <rect x="22" y="26.25" width="14" height="5" fill="white"/>
+              <rect x="38" y="26.25" width="14" height="5" fill="white"/>
+              <rect x="22" y="35" width="30" height="5" fill="white"/>
               
-              {/* M */}
-              <rect x="44" y="0" width="12" height="4" fill="white"/>
-              <rect x="68" y="0" width="12" height="4" fill="white"/>
-              <rect x="44" y="7" width="12" height="4" fill="white"/>
-              <rect x="56" y="7" width="12" height="4" fill="white"/>
-              <rect x="68" y="7" width="12" height="4" fill="white"/>
-              <rect x="44" y="14" width="12" height="4" fill="white"/>
-              <rect x="68" y="14" width="12" height="4" fill="white"/>
-              <rect x="44" y="21" width="12" height="4" fill="white"/>
-              <rect x="68" y="21" width="12" height="4" fill="white"/>
-              <rect x="44" y="28" width="12" height="4" fill="white"/>
-              <rect x="68" y="28" width="12" height="4" fill="white"/>
+              {/* M - Letter */}
+              <rect x="58" y="0" width="14" height="5" fill="white"/>
+              <rect x="86" y="0" width="14" height="5" fill="white"/>
+              <rect x="58" y="8.75" width="14" height="5" fill="white"/>
+              <rect x="72" y="8.75" width="14" height="5" fill="white"/>
+              <rect x="86" y="8.75" width="14" height="5" fill="white"/>
+              <rect x="58" y="17.5" width="14" height="5" fill="white"/>
+              <rect x="86" y="17.5" width="14" height="5" fill="white"/>
+              <rect x="58" y="26.25" width="14" height="5" fill="white"/>
+              <rect x="86" y="26.25" width="14" height="5" fill="white"/>
+              <rect x="58" y="35" width="14" height="5" fill="white"/>
+              <rect x="86" y="35" width="14" height="5" fill="white"/>
             </svg>
           </div>
           
@@ -172,19 +173,6 @@ const Dashboard = () => {
           Overview
         </button>
         <button
-          className={activeTab === 'tables' ? 'active' : ''}
-          onClick={() => setActiveTab('tables')}
-        >
-          Tables
-        </button>
-        <button
-          className={activeTab === 'details' ? 'active' : ''}
-          onClick={() => setActiveTab('details')}
-          disabled={!selectedTable}
-        >
-          Table Details
-        </button>
-        <button
           className={activeTab === 'query' ? 'active' : ''}
           onClick={() => setActiveTab('query')}
         >
@@ -201,33 +189,6 @@ const Dashboard = () => {
       <div className="dashboard-content">
         {activeTab === 'overview' && (
           <StatsOverview stats={stats} tables={tables} />
-        )}
-
-        {activeTab === 'tables' && (
-          <div className="tables-view">
-            <div className="search-bar">
-              <input
-                type="text"
-                placeholder="Search tables..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              />
-              <button onClick={handleSearch}>Search</button>
-              <button onClick={() => { setSearchQuery(''); loadInitialData(); }}>
-                Clear
-              </button>
-            </div>
-            <TableList
-              tables={tables}
-              onTableSelect={handleTableSelect}
-              loading={loading}
-            />
-          </div>
-        )}
-
-        {activeTab === 'details' && selectedTable && (
-          <TableDetails table={selectedTable} />
         )}
 
         {activeTab === 'query' && <QueryExecutor />}
